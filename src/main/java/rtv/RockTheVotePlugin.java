@@ -24,7 +24,7 @@ public class RockTheVotePlugin extends Plugin {
             int req = (int) Math.ceil(ratio * Groups.player.size());
             if(votes.contains(player.uuid())) {
                 votes.remove(player.uuid());
-                Call.sendMessage("RTV: [accent]" + player.name + "[] left, [green]" + cur + "[] votes, [green]" + req + "[] required");
+                Call.sendMessage("RTV: [accent]" + player.name + "[] 已投票, [green]" + cur + "[] 已经投票, [green]" + req + "[] 通过需求人数");
             }
         });
         // clear votes on game over
@@ -39,26 +39,26 @@ public class RockTheVotePlugin extends Plugin {
     public void registerClientCommands(CommandHandler handler){
 
         //register a simple reply command
-        handler.<Player>register("rtv", "[off]", "Rock the vote to change map", (args, player) -> {
+        handler.<Player>register("rtv", "[off]", "通过投票来随机地图", (args, player) -> {
             if (player.admin()){
                 this.enable = args.length != 1 || !args[0].equals("off");
             }
             if (!this.enable) {
-                player.sendMessage("RTV: RockTheVote is disabled");
+                player.sendMessage("RTV: 投票随机地图已关闭");
                 return;
             }
             this.votes.add(player.uuid());
             int cur = this.votes.size();
             int req = (int) Math.ceil(ratio * Groups.player.size());
-            Call.sendMessage("RTV: [accent]" + player.name + "[] wants to change the map, [green]" + cur +
-                "[] votes, [green]" + req + "[] required");
+            Call.sendMessage("RTV: [accent]" + player.name + "[] 想要换图, [green]" + cur +
+                "[] 已经投票, [green]" + req + "[] 投票需求人数");
 
             if (cur < req) {
                 return;
             }
 
             this.votes.clear();
-            Call.sendMessage("RTV: [green] vote passed, changing map.");
+            Call.sendMessage("RTV: [green] 投票通过，即将换图。");
             Events.fire(new GameOverEvent(Team.crux));
         });
     }
